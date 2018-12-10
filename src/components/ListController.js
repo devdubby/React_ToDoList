@@ -1,4 +1,24 @@
 import React, { Component } from 'react';
+import { withStyles, TextField, Button } from '@material-ui/core';
+
+const styles = theme => ({
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  },
+  dense: {
+    marginTop: 16,
+  },
+  menu: {
+    width: 200,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+});
 
 type Props = {
   titleRef: Object,
@@ -6,28 +26,30 @@ type Props = {
   addList: Function,
 };
 
-export default class ListController extends Component<Props> {
+class ListController extends Component<Props> {
   render() {
     return (
       <div>
-        <h1>ToDo</h1>
-        <input
-          type="text"
-          placeholder="제목"
-          ref={this.props.titleRef}
+        <h1 style={{ color: '#1de9b6' }}>ToDo</h1>
+        <TextField
+          label="제목"
+          margin="normal"
+          variant="outlined"
+          inputRef={this.props.titleRef}
         /> <br />
-        <input
-          type="text"
-          placeholder="내용"
-          ref={this.props.contentRef}
+        <TextField
+          label="내용"
+          margin="normal"
+          variant="outlined"
+          inputRef={this.props.contentRef}
         /> <br />
-        <button
-          type="button"
-          onClick={this.props.addList}
-        >
+        <Button variant="contained" color="primary" onClick={this.props.addList}>
           등록
-        </button>
+        </Button>
+        <br />
       </div>
     );
   }
 }
+
+export default withStyles(styles)(ListController);

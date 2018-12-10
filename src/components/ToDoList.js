@@ -59,7 +59,6 @@ export default class ToDoList extends Component {
         todo.isModifyMode = false;
       });
       newTodoList[index].isModifyMode = !newTodoList[index].isModifyMode;
-      console.log(newTodoList[index].isModifyMode);
       return {
         todoList: newTodoList,
       };
@@ -71,7 +70,7 @@ export default class ToDoList extends Component {
     const modifyContentValue = this.modifyContentRef.current;
     this.setState((state) => {
       const modifiedTodoList = [...state.todoList];
-      modifiedTodoList[index].isModifyMode = true;
+      modifiedTodoList[index].isModifyMode = false;
       modifiedTodoList[index].title = modifyTitleValue.value;
       modifiedTodoList[index].content = modifyContentValue.value;
       localStorage.setItem('todolist', JSON.stringify(modifiedTodoList));
