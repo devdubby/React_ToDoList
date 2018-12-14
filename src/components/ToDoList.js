@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Paper } from '@material-ui/core';
 import ListController from './ListController';
 import ListView from './ListView';
 
@@ -17,24 +16,27 @@ export default class ToDoList extends Component {
   }
 
   componentDidMount() {
-    const originTodoList = JSON.parse(localStorage.getItem('todolist'));
+    const originTodoList = JSON.parse(this.localStorageGetItem('todolist'));
     this.setState({
       todoList: originTodoList,
     });
   }
 
+  localStorageSetItem = (key, value) => localStorage.setItem(key, JSON.stringify((value)));
+
+  localStorageGetItem = key => localStorage.getItem(key);
+
   addTodo = () => {
     const titleValue = this.titleRef.current;
     const contentValue = this.contentRef.current;
-    const isModifyMode = true;
     const newTodo = {
       title: titleValue.value,
       content: contentValue.value,
-      isModifyMode: !isModifyMode,
+      isModifyMode: false,
     };
     this.setState((state) => {
       const newTodoList = [...state.todoList, newTodo];
-      localStorage.setItem('todolist', JSON.stringify(newTodoList));
+      this.localStorageSetItem('todolist', newTodoList);
       return {
         todoList: newTodoList,
       };
@@ -45,7 +47,7 @@ export default class ToDoList extends Component {
     this.setState((state) => {
       const newTodoList = [...state.todoList];
       newTodoList.splice(index, 1);
-      localStorage.setItem('todolist', JSON.stringify(newTodoList));
+      this.localStorageSetItem('todolist', newTodoList);
       return {
         todoList: newTodoList,
       };
@@ -73,7 +75,7 @@ export default class ToDoList extends Component {
       modifiedTodoList[index].isModifyMode = false;
       modifiedTodoList[index].title = modifyTitleValue.value;
       modifiedTodoList[index].content = modifyContentValue.value;
-      localStorage.setItem('todolist', JSON.stringify(modifiedTodoList));
+      this.localStorageSetItem('todolist', modifiedTodoList);
       return {
         todoList: modifiedTodoList,
       };
@@ -82,7 +84,7 @@ export default class ToDoList extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <ListController
           addList={this.addTodo}
           titleRef={this.titleRef}
@@ -96,7 +98,7 @@ export default class ToDoList extends Component {
           modifyContentRef={this.modifyContentRef}
           modifyTodo={this.modifyTodo}
         />
-      </div>
+      </>
     );
   }
 }
